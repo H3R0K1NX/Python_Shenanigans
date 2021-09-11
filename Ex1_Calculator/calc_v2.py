@@ -1,11 +1,13 @@
 """
 Task #1 - Calculator using numpy
 Author: Eldan Gurevich
-Version: 1.00
+Version: 1.2
 Last Update: 11.9.2021
 """
 from termcolor import colored
 
+""" 
+### Deprecated ###
 
 class TerminalColors:
     HEADER = "\033[95m"
@@ -17,8 +19,8 @@ class TerminalColors:
     ENDC = "\033[0m"
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
-
-
+"""
+import os
 import numpy as np
 
 
@@ -60,6 +62,13 @@ def sum(lists) -> list:
     return list(np.sum(lists, 0))
 
 
+func_dict = {
+    "mult": mult,
+    "sum": sum,
+    "multV": multV,
+}
+
+
 def calc(func_name: str, *user_input: tuple) -> list:
     """
     Function dispatcher.
@@ -71,12 +80,7 @@ def calc(func_name: str, *user_input: tuple) -> list:
     Returns:
         list: List output of one of the functions.
     """
-    dict = {
-        "mult": mult,
-        "sum": sum,
-        "multV": multV,
-    }
-    return dict[func_name](*user_input)
+    return func_dict[func_name](*user_input)
 
 
 def populate_lists_loop() -> list:
@@ -101,13 +105,20 @@ def populate_lists_loop() -> list:
 
 def calculator_menu():
     choice = " "
-    while choice != "4":
+    while choice != "5":
         print("###########################################")
         print(colored("\tCalculator menu", "green", attrs=["underline"]))
-        print(colored("[1].", "cyan") + "Multiply list by constant")
-        print(colored("[2].", "blue") + "Multiply two lists of an equal size")
-        print(colored("[3].", "magenta") + "Sum of variadic lists [Minimum of two]")
-        print(colored("[4].", "yellow") + "Quit the program")
+        print(colored("[1]. Multiply list by constant", "cyan", attrs=["bold"]))
+        print(
+            colored("[2]. Multiply two lists of an equal size", "green", attrs=["bold"])
+        )
+        print(
+            colored(
+                "[3]. Sum of variadic lists [Minimum of two]", "magenta", attrs=["bold"]
+            )
+        )
+        print(colored("[4]. Function documentation", "red", attrs=["bold"]))
+        print(colored("[5]. Quit the program", "yellow", attrs=["bold"]))
         print("###########################################")
         choice = input("Please select an option: ")
         print(f"The selected choice is: [{choice}]")
@@ -118,7 +129,12 @@ def calculator_menu():
             print(f"Result: {calc('multV', populate_lists_loop())}\n")
         elif choice == "3":
             print(f"Result: {calc('sum', populate_lists_loop())}\n")
+        elif choice == "4":
+            print("Choose one of the following: mult ; multV ; sum")
+            doc = input("Enter the name of the desired function: ")
+            print("\n" + colored(func_dict[doc].__doc__, attrs=["bold"]) + "\n")
     print(colored("\n\tYou've decided to quit the program...\n\n", "red"))
+    os.system("pause")
 
 
 calculator_menu()
