@@ -1,6 +1,5 @@
 """
 Task #1 - Calculator using numpy
-Author: Eldan Gurevich
 Version: 1.2
 Last Update: 11.9.2021
 """
